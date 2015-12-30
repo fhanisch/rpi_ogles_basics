@@ -21,7 +21,7 @@ View view(char *name, char *hintergrund)
 	RenderObject triangle = renderobject("Triangle","shader/generic.vert","shader/generic.frag", NULL, yellow);
 	RenderObject rectangle = renderobject("Rectangle","shader/generictex.vert","shader/generictex.frag", view.hintergrundbild, blue);
 	RenderObject square = renderobject("Square","shader/generic.vert","shader/generic.frag", NULL, red);
-	RenderObject textfield = renderobject ("Textfield","shader/generictex.vert","shader/generictext.frag","font3.bmp",red);
+	RenderObject textfield = renderobject ("Textfield","shader/generictex.vert","shader/generictext.frag","res/font3.bmp",red);
 	triangle.pfcnGeoTriangle(&triangle);
 	rectangle.pfcnGeoRectangle(&rectangle);
 	square.pfcnGeoRectangle(&square);
@@ -114,7 +114,7 @@ void testCharMap(GLubyte *tex, int xSize)
 	uint character, zeile, bit;	
 	uint charPtr=0;
 
-	file = fopen("font.bin","rb");
+	file = fopen("res/font.bin","rb");
 	printf("Size Of CharMap: %i\n",sizeof(charMap));
 	fread(charMap,sizeof(charMap),1,file);
 	fclose(file);
