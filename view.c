@@ -18,10 +18,10 @@ View view(char *name, char *hintergrund)
 	view.name = name;
 	view.hintergrundbild = hintergrund;
 	view.pfcnDrawView = drawView;
-	RenderObject triangle = renderobject("Triangle","generic.vert","generic.frag", NULL, yellow);
-	RenderObject rectangle = renderobject("Rectangle","generictex.vert","generictex.frag", view.hintergrundbild, blue);
-	RenderObject square = renderobject("Square","generic.vert","generic.frag", NULL, red);
-	RenderObject textfield = renderobject ("Textfield","generictex.vert","generictext.frag","font3.bmp",red);
+	RenderObject triangle = renderobject("Triangle","shader/generic.vert","shader/generic.frag", NULL, yellow);
+	RenderObject rectangle = renderobject("Rectangle","shader/generictex.vert","shader/generictex.frag", view.hintergrundbild, blue);
+	RenderObject square = renderobject("Square","shader/generic.vert","shader/generic.frag", NULL, red);
+	RenderObject textfield = renderobject ("Textfield","shader/generictex.vert","shader/generictext.frag","font3.bmp",red);
 	triangle.pfcnGeoTriangle(&triangle);
 	rectangle.pfcnGeoRectangle(&rectangle);
 	square.pfcnGeoRectangle(&square);
