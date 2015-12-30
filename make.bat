@@ -1,0 +1,1 @@
+gcc -o test main.c shader.c renderobject.c view.c matrix.c -lbcm_host -lEGL -lGLESv2 -I../../userland/userland-master/host_applications/linux/libs/bcm_host/include -I../../userland/userland-master -I../../userland/userland-master/build/inc/interface/vcos -L../../userland/userland-master/build/lib
