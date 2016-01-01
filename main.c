@@ -116,13 +116,20 @@ int main(int val, char **str)
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
+
 		myView.pfcnDrawView(&myView);
 		eglSwapBuffers(state.display, state.surface);
 		myView.obj[0].rotZ+=0.01;
-		
-		if (keyPressed(&key)) printf("Taste: %i\n",key);	
-	}	
+
+		if (keyPressed(&key))
+		{
+			if (key==97) myView.obj[2].vTrans.x -= 0.05;
+			else if (key==115) myView.obj[2].vTrans.x += 0.05;
+			else if (key==121) myView.obj[2].vTrans.y -= 0.05;
+			else if (key==119) myView.obj[2].vTrans.y += 0.05;
+			else printf("Taste: %i\n",key);
+		}
+	}
 	keyboardReset();
 
 	return 0;
