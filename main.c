@@ -103,17 +103,17 @@ int main(int val, char **str)
 	//glClearDepthf(1.0f);
 	//glShadeModel(GL_SMOOTH);
 	//glEnable(GL_DEPTH_TEST);
-	//glDepthFunc(GL_NEVER);
+	//glDepthFunc(GL_LESS);
 	//glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	//Transparenz
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
-	glClear(GL_COLOR_BUFFER_BIT);
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
 	while(1)
 	{
+		glClear(GL_COLOR_BUFFER_BIT);
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
 		myView.pfcnDrawView(&myView);
 		eglSwapBuffers(state.display, state.surface);
 		myView.obj[0].rotZ+=0.01;		

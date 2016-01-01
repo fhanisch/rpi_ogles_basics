@@ -32,9 +32,11 @@ View view(char *name, char *hintergrund)
 	createObj(&textfield);
 	triangle.mProj.m11 = 1080.0f/1920.0f;
 	triangle.mProj = transpose(triangle.mProj);
+	triangle.vTrans = vec3(-1.0f, 0.35f, 0.0f);
 	triangle.vScale = vec3(0.3f,0.3f,1.0f);
 	square.mProj.m11 = 1080.0f/1920.0f;
 	square.mProj = transpose(square.mProj);
+	square.vTrans = vec3(1.1f, -0.5f, 0.0f);
 	square.vScale = vec3(0.3f,0.3f,1.0f);
 	rectangle.pfcnLoadTexture(&rectangle);
 	
@@ -71,6 +73,7 @@ void createObj(RenderObject *obj)
 	obj->pfcnCreateVBO(obj);
 	obj->pfcnCreateIBO(obj);
 	obj->mProj = identity();
+	obj->vTrans = vec3(0.0f, 0.0f, 0.0f);
 	obj->vScale=vec3(1.0f,1.0f,1.0f);
 }
 

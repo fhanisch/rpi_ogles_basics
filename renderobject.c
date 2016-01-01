@@ -57,6 +57,7 @@ void drawObjVBO(void *obj)
 	//GLenum err;
 	RenderObject *o = obj;
 	GLint mProjHandle = glGetUniformLocation(o->shaderProgram,"mProj");
+	GLint vTransHandle = glGetUniformLocation(o->shaderProgram,"vTrans");
 	GLint vScaleHandle = glGetUniformLocation(o->shaderProgram,"vScale");
 	GLint rotZHandle = glGetUniformLocation(o->shaderProgram,"rotZ");
 	GLint colorHandle = glGetUniformLocation(o->shaderProgram,"color");	
@@ -67,6 +68,7 @@ void drawObjVBO(void *obj)
 	glEnableVertexAttribArray(vertexHandle);
 
 	glUniformMatrix4fv(mProjHandle,1,GL_FALSE,(GLfloat*)&o->mProj);
+	glUniform3fv(vTransHandle,1,(GLfloat*)&o->vTrans);
 	glUniform3fv(vScaleHandle,1,(GLfloat*)&o->vScale);
 	glUniform1f(rotZHandle, o->rotZ);
 	glUniform4fv(colorHandle,1, (GLfloat*)&o->color);
@@ -93,6 +95,7 @@ void drawObjVBOTex(void *obj)
 {
 	RenderObject *o = obj;
 	GLint mProjHandle = glGetUniformLocation(o->shaderProgram,"mProj");
+	GLint vTransHandle = glGetUniformLocation(o->shaderProgram,"vTrans");
 	GLint vScaleHandle = glGetUniformLocation(o->shaderProgram,"vScale");
 	GLint colorHandle = glGetUniformLocation(o->shaderProgram,"color");
 	GLint textureHandle = glGetUniformLocation(o->shaderProgram,"samp");
@@ -105,6 +108,7 @@ void drawObjVBOTex(void *obj)
 	glEnableVertexAttribArray(texCoordHandle);
 
 	glUniformMatrix4fv(mProjHandle,1,GL_FALSE,(GLfloat*)&o->mProj);
+	glUniform3fv(vTransHandle,1,(GLfloat*)&o->vTrans);
 	glUniform3fv(vScaleHandle,1,(GLfloat*)&o->vScale);
 	glUniform4fv(colorHandle,1,(GLfloat*)&o->color);
 	glUniform1i(textureHandle,0);
