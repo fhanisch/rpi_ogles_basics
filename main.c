@@ -1,9 +1,11 @@
 //main.c
 #include <stdio.h>
+#include <stdbool.h>
 #include "ogl.h"
 #include "bcm_host.h"
 #include "types.h"
 #include "view.h"
+#include "ui/key.h"
 
 
 typedef struct {
@@ -83,6 +85,7 @@ void initOpenGL(CUBE_STATE_T *p_state)
 
 int main(int val, char **str)
 {
+	int key;
 	View myView;
 
 	const GLubyte *vendor		= glGetString(GL_VENDOR);
@@ -109,15 +112,18 @@ int main(int val, char **str)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
-	while(1)
+	while(key!=27)
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		myView.pfcnDrawView(&myView);
 		eglSwapBuffers(state.display, state.surface);
-		myView.obj[0].rotZ+=0.01;		
+		myView.obj[0].rotZ+=0.01;
+		
+		if (keyPressed(&key)) printf("Taste: %i\n",key);	
 	}	
+	keyboardReset();
 
 	return 0;
 }
