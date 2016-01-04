@@ -6,6 +6,7 @@
 #include "types.h"
 #include "view.h"
 #include "ui/key.h"
+#include "file_io/bmp_rw.h"
 
 
 typedef struct {
@@ -112,6 +113,7 @@ int main(int val, char **str)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
+	writeBMP("cross.bmp");
 	while(key!=27)
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
