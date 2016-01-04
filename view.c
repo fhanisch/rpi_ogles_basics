@@ -1,6 +1,7 @@
 //view.c
 #include <stdio.h>
 #include <string.h>
+#include "types.h"
 #include "view.h"
 
 #define RED	{1.0f, 0.0f, 0.0f, 1.0f}
