@@ -7,6 +7,7 @@
 #include "view.h"
 #include "ui/key.h"
 #include "file_io/bmp_rw.h"
+#include <SDL/SDL.h>
 
 
 typedef struct {
@@ -86,7 +87,8 @@ void initOpenGL(CUBE_STATE_T *p_state)
 
 int main(int val, char **str)
 {
-	int key;
+	int quit=0;
+	SDL_Event event;
 	View myView;
 
 	const GLubyte *vendor		= glGetString(GL_VENDOR);
@@ -101,6 +103,9 @@ int main(int val, char **str)
 	printf("GLSL Version: %s\n", glslVersion);
 
 	initOpenGL(&state);
+	SDL_Init(SDL_INIT_VIDEO);
+	SDL_SetVideoMode(0,0,32,SDL_OPENGL);
+
 	myView = view("MyView",str[1]);
 
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
@@ -114,7 +119,7 @@ int main(int val, char **str)
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
 	writeBMP("cross.bmp");
-	while(key!=27)
+	while(!quit)
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -123,16 +128,16 @@ int main(int val, char **str)
 		eglSwapBuffers(state.display, state.surface);
 		myView.obj[0].rotZ+=0.01;
 
-		if (keyPressed(&key))
+		while(SDL_PollEvent(&event))
 		{
-			if (key==97) myView.obj[2].vTrans.x -= 0.05;
-			else if (key==115) myView.obj[2].vTrans.x += 0.05;
-			else if (key==121) myView.obj[2].vTrans.y -= 0.05;
-			else if (key==119) myView.obj[2].vTrans.y += 0.05;
-			else printf("Taste: %i\n",key);
-		}
+			switch(event.type)
+			{
+				case SDL_QUIT: quit=1;
+				case SDL_KEYDOWN: quit=1;
+			}
+		}		
 	}
-	keyboardReset();
+	SDL_Quit();
 
 	return 0;
 }
