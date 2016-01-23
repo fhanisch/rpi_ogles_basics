@@ -87,24 +87,27 @@ void initOpenGL(CUBE_STATE_T *p_state)
 
 int main(int val, char **str)
 {
-	int quit=0;
+	bool quit=false;
 	SDL_Event event;
+	bool keyPressed[SDLK_LAST];
+	memset(keyPressed, 0, sizeof(keyPressed));
 	View myView;
+	const GLubyte *vendor, *renderer, *oglVersion, *glslVersion;
 
-	const GLubyte *vendor		= glGetString(GL_VENDOR);
-	const GLubyte *renderer		= glGetString(GL_RENDERER);
-	const GLubyte *oglVersion	= glGetString(GL_VERSION);
-	const GLubyte *glslVersion	= glGetString(GL_SHADING_LANGUAGE_VERSION);
+	initOpenGL(&state);
+	SDL_Init(SDL_INIT_VIDEO);
+	SDL_SetVideoMode(0,0,32,SDL_OPENGL);
+
+	vendor		= glGetString(GL_VENDOR);
+	renderer	= glGetString(GL_RENDERER);
+	oglVersion	= glGetString(GL_VERSION);
+	glslVersion	= glGetString(GL_SHADING_LANGUAGE_VERSION);
 
 	printf("Programm: %s\n",str[0]+2);
 	printf("Vendor: %s\n", vendor);
 	printf("Renderer: %s\n",renderer);
 	printf("OpenGL Version: %s\n",oglVersion);
 	printf("GLSL Version: %s\n", glslVersion);
-
-	initOpenGL(&state);
-	SDL_Init(SDL_INIT_VIDEO);
-	SDL_SetVideoMode(0,0,32,SDL_OPENGL);
 
 	myView = view("MyView",str[1]);
 
@@ -119,7 +122,7 @@ int main(int val, char **str)
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
 	writeBMP("cross.bmp");
-	while(!quit)
+	while(!keyPressed[SDLK_ESCAPE]&&!quit)
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -132,10 +135,19 @@ int main(int val, char **str)
 		{
 			switch(event.type)
 			{
-				case SDL_QUIT: quit=1;
-				case SDL_KEYDOWN: quit=1;
+				case SDL_QUIT: quit=true;
+				case SDL_KEYDOWN:
+					keyPressed[event.key.keysym.sym] = true;
+					break;
+				case SDL_KEYUP:
+					keyPressed[event.key.keysym.sym] = false;
+					break;
 			}
-		}		
+		}
+		if (keyPressed[SDLK_LEFT]) myView.obj[2].vTrans.x -= 0.05;
+		if (keyPressed[SDLK_RIGHT]) myView.obj[2].vTrans.x += 0.05;
+		if (keyPressed[SDLK_UP]) myView.obj[2].vTrans.y += 0.05;
+		if (keyPressed[SDLK_DOWN]) myView.obj[2].vTrans.y -= 0.05;
 	}
 	SDL_Quit();
 
