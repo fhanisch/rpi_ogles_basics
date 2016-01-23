@@ -4,6 +4,7 @@
 #include "types.h"
 #include "view.h"
 
+#define BLACK	{0.0f, 0.0f, 0.0f, 1.0f}
 #define RED	{1.0f, 0.0f, 0.0f, 1.0f}
 #define GREEN	{0.0f, 1.0f, 0.0f, 1.0f}
 #define BLUE	{0.0f, 0.0f, 1.0f, 1.0f}
@@ -11,6 +12,7 @@
 
 View view(char *name, char *hintergrund)
 {
+	Color black = BLACK;
 	Color red = RED;
 	Color green = GREEN;
 	Color blue = BLUE;
@@ -19,18 +21,23 @@ View view(char *name, char *hintergrund)
 	view.name = name;
 	view.hintergrundbild = hintergrund;
 	view.pfcnDrawView = drawView;
-	RenderObject triangle = renderobject("Triangle","shader/generic.vert","shader/generic.frag", NULL, yellow);
-	RenderObject rectangle = renderobject("Rectangle","shader/generictex.vert","shader/generictex.frag", view.hintergrundbild, blue);
-	RenderObject square = renderobject("Square","shader/generic.vert","shader/generic.frag", NULL, red);
-	RenderObject textfield = renderobject ("Textfield","shader/generictex.vert","shader/generictext.frag","res/font3.bmp",red);
+	RenderObject cross = renderobject("Cross","shader/generic.vert","shader/generic.frag", NULL, black, DRAW_OBJ);
+	RenderObject triangle = renderobject("Triangle","shader/generic.vert","shader/generic.frag", NULL, yellow, DRAW_OBJ_VBO);
+	RenderObject rectangle = renderobject("Rectangle","shader/generictex.vert","shader/generictex.frag", view.hintergrundbild, blue, DRAW_OBJ_VBO_TEX);
+	RenderObject square = renderobject("Square","shader/generic.vert","shader/generic.frag", NULL, red, DRAW_OBJ_VBO);
+	RenderObject textfield = renderobject ("Textfield","shader/generictex.vert","shader/generictext.frag","res/font3.bmp",red, DRAW_OBJ_VBO_TEX);
+	cross.pfcnGeoCross(&cross);
 	triangle.pfcnGeoTriangle(&triangle);
 	rectangle.pfcnGeoRectangle(&rectangle);
 	square.pfcnGeoRectangle(&square);
 	textfield.pfcnGeoRectangle(&textfield);
+	createObj2(&cross);
 	createObj(&triangle);
 	createObj(&rectangle);
 	createObj(&square);
 	createObj(&textfield);
+	cross.mProj.m11 = 1080.0f/1920.0f;
+	cross.vScale = vec3(0.05f,0.05f,1.0f);
 	triangle.mProj.m11 = 1080.0f/1920.0f;
 	triangle.mProj = transpose(triangle.mProj);
 	triangle.vTrans = vec3(-1.0f, 0.35f, 0.0f);
@@ -63,6 +70,7 @@ View view(char *name, char *hintergrund)
 	view.obj[1] = rectangle;
 	view.obj[2] = square;
 	view.obj[3] = textfield;
+	view.obj[4] = cross;
 	return view;
 }
 
@@ -78,6 +86,16 @@ void createObj(RenderObject *obj)
 	obj->vScale=vec3(1.0f,1.0f,1.0f);
 }
 
+void createObj2(RenderObject *obj)
+{
+	obj->pfcnLoadObjShader(obj);
+	obj->pfcnCreateObjShader(obj);
+	obj->pfcnCreateObjShaderProgram(obj);	
+	obj->mProj = identity();
+	obj->vTrans = vec3(0.0f, 0.0f, 0.0f);
+	obj->vScale=vec3(1.0f,1.0f,1.0f);
+}
+
 void drawView(void *view)
 {
 	View *vw = view;
@@ -85,6 +103,7 @@ void drawView(void *view)
 	vw->obj[2].pfcnDrawObj(&vw->obj[2]);
 	vw->obj[0].pfcnDrawObj(&vw->obj[0]);
 	vw->obj[3].pfcnDrawObj(&vw->obj[3]);
+	vw->obj[4].pfcnDrawObj(&vw->obj[4]);
 }
 
 void setImage2Texture(GLubyte *tex1, int xSize1, int ySize1, GLubyte *tex2, int xSize2, int ySize2)

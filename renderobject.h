@@ -7,6 +7,7 @@ typedef int (*LoadObjShader)(void*);
 typedef int (*CreateObjShader)(void*);
 typedef int (*CreateObjShaderProgram)(void*);
 typedef void (*DrawObj)(void*);
+typedef void (*GeoCross)(void*);
 typedef void (*GeoTriangle)(void*);
 typedef void (*GeoRectangle)(void*);
 typedef void (*CreateVBO)(void*);
@@ -16,6 +17,8 @@ typedef int (*LoadTexture)(void*);
 typedef void (*BindTexture)(void*);
 typedef void (*GetLetters)(void*);
 typedef void (*SetText)(void*,char*);
+
+enum drawObjMode {DRAW_OBJ, DRAW_OBJ_VBO, DRAW_OBJ_VBO_TEX};
 
 typedef struct
 {
@@ -45,6 +48,7 @@ typedef struct
 	GLuint fragmentShader;
 	GLuint shaderProgram;
 	Vertex *v;
+	uint vLen;
 	uint vSize;
 	GLushort *indices;
 	uint indLen;
@@ -71,6 +75,7 @@ typedef struct
 	CreateObjShader pfcnCreateObjShader;
 	CreateObjShaderProgram pfcnCreateObjShaderProgram;
 	DrawObj pfcnDrawObj;
+	GeoCross pfcnGeoCross;
 	GeoTriangle pfcnGeoTriangle;
 	GeoRectangle pfcnGeoRectangle;
 	CreateVBO pfcnCreateVBO;
@@ -82,12 +87,14 @@ typedef struct
 	SetText pfcnSetText;
 } RenderObject;
 
-RenderObject renderobject(char *name, char *vertexShaderFileName, char *fragmentShaderFileName,  char *textureFilename, Color c);
+RenderObject renderobject(char *name, char *vertexShaderFileName, char *fragmentShaderFileName,  char *textureFilename, Color c, int drawObjMode);
 int loadObjShader(void *obj);
 int createObjShader(void *obj);
 int createObjShaderProgram(void *obj);
+void drawObj(void *obj);
 void drawObjVBO(void *obj);
 void drawObjVBOTex(void *obj);
+void geoCross(void *obj);
 void geoTriangle(void *obj);
 void geoRectangle(void *obj);
 void createVBO(void *obj);

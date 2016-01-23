@@ -4,7 +4,7 @@
 #include <string.h>
 #include "renderobject.h"
 
-RenderObject renderobject(char *name, char *vertexShaderFileName, char *fragmentShaderFileName, char *textureFilename, Color c)
+RenderObject renderobject(char *name, char *vertexShaderFileName, char *fragmentShaderFileName, char *textureFilename, Color c, int drawObjMode)
 {
 	RenderObject obj;
 	obj.name=name;
@@ -16,7 +16,10 @@ RenderObject renderobject(char *name, char *vertexShaderFileName, char *fragment
 	obj.pfcnLoadObjShader=loadObjShader;
 	obj.pfcnCreateObjShader=createObjShader;
 	obj.pfcnCreateObjShaderProgram = createObjShaderProgram;
-	if (textureFilename==NULL) obj.pfcnDrawObj = drawObjVBO; else obj.pfcnDrawObj = drawObjVBOTex;
+	if (drawObjMode==DRAW_OBJ_VBO) obj.pfcnDrawObj = drawObjVBO; 
+	else if (drawObjMode==DRAW_OBJ_VBO_TEX) obj.pfcnDrawObj = drawObjVBOTex;
+	else obj.pfcnDrawObj = drawObj;
+	obj.pfcnGeoCross = geoCross;
 	obj.pfcnGeoTriangle = geoTriangle;
 	obj.pfcnGeoRectangle = geoRectangle;
 	obj.pfcnCreateVBO = createVBO;
@@ -50,6 +53,32 @@ int createObjShaderProgram(void *obj)
 	RenderObject *o = obj;
 	o->shaderProgram = createShaderProgram(o->vertexShader, o->fragmentShader);
 	return 0;
+}
+
+void drawObj(void *obj)
+{	
+	RenderObject *o = obj;
+	GLint mProjHandle = glGetUniformLocation(o->shaderProgram,"mProj");
+	GLint vTransHandle = glGetUniformLocation(o->shaderProgram,"vTrans");
+	GLint vScaleHandle = glGetUniformLocation(o->shaderProgram,"vScale");
+	GLint rotZHandle = glGetUniformLocation(o->shaderProgram,"rotZ");
+	GLint colorHandle = glGetUniformLocation(o->shaderProgram,"color");	
+	GLuint vertexHandle = glGetAttribLocation(o->shaderProgram,"vertex");	
+
+	glUseProgram(o->shaderProgram);
+
+	glEnableVertexAttribArray(vertexHandle);
+
+	glUniformMatrix4fv(mProjHandle,1,GL_FALSE,(GLfloat*)&o->mProj);
+	glUniform3fv(vTransHandle,1,(GLfloat*)&o->vTrans);
+	glUniform3fv(vScaleHandle,1,(GLfloat*)&o->vScale);
+	glUniform1f(rotZHandle, o->rotZ);
+	glUniform4fv(colorHandle,1, (GLfloat*)&o->color);
+		
+	glVertexAttribPointer(vertexHandle, 3, GL_FLOAT, GL_FALSE, 0, o->v);	
+	glDrawArrays(o->RENDER_MODE,0,o->vLen);
+		
+	glDisableVertexAttribArray(vertexHandle);
 }
 
 void drawObjVBO(void *obj)
@@ -131,6 +160,21 @@ void drawObjVBOTex(void *obj)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
 	glBindTexture(GL_TEXTURE_2D,0);
 }
+
+void geoCross(void *obj)
+{
+	RenderObject *o=obj;
+	GLfloat v[] = {	-1.0f, 0.0f, 0.0f,
+			 1.0f, 0.0f, 0.0f,
+			 0.0f, -1.0f, 0.0f,
+			 0.0f,  1.0f, 0.0f};
+	o->vLen = 4;
+	o->vSize = o->vLen*sizeof(Vertex);
+	o->v=malloc(o->vSize);
+	memcpy(o->v,v,o->vSize);
+	o->RENDER_MODE = GL_LINES;
+}
+
 
 void geoTriangle(void *obj)
 {

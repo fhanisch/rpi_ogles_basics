@@ -90,6 +90,8 @@ int main(int val, char **str)
 	bool quit=false;
 	SDL_Event event;
 	bool keyPressed[SDLK_LAST];
+	int mouseX = 0;
+	int mouseY = 0;
 	memset(keyPressed, 0, sizeof(keyPressed));
 	View myView;
 	const GLubyte *vendor, *renderer, *oglVersion, *glslVersion;
@@ -121,7 +123,7 @@ int main(int val, char **str)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
-	writeBMP("cross.bmp");
+	//writeBMP("cross.bmp");
 	while(!keyPressed[SDLK_ESCAPE]&&!quit)
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -142,12 +144,18 @@ int main(int val, char **str)
 				case SDL_KEYUP:
 					keyPressed[event.key.keysym.sym] = false;
 					break;
+				case SDL_MOUSEMOTION:
+					mouseX += event.motion.xrel;
+					mouseY -= event.motion.yrel;
+					break;
 			}
 		}
 		if (keyPressed[SDLK_LEFT]) myView.obj[2].vTrans.x -= 0.05;
 		if (keyPressed[SDLK_RIGHT]) myView.obj[2].vTrans.x += 0.05;
 		if (keyPressed[SDLK_UP]) myView.obj[2].vTrans.y += 0.05;
 		if (keyPressed[SDLK_DOWN]) myView.obj[2].vTrans.y -= 0.05;
+		myView.obj[4].vTrans.x = mouseX/1920.0f*10.0f;
+		myView.obj[4].vTrans.y = mouseY/1080.0f*10.0f;
 	}
 	SDL_Quit();
 

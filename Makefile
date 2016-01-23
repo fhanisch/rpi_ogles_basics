@@ -13,10 +13,10 @@ build/main.o: main.c
 build/shader.o: shader.c
 	gcc -c shader.c -o $@ $(INC)
 
-build/renderobject.o: renderobject.c
+build/renderobject.o: renderobject.c renderobject.h
 	gcc -c renderobject.c -o $@ $(INC)
 
-build/view.o: view.c
+build/view.o: view.c view.h
 	gcc -c view.c -o $@ $(INC)
 
 build/matrix.o: matrix.c
