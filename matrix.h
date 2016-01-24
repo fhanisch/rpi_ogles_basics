@@ -15,4 +15,5 @@ typedef struct
 
 Vector3 vec3(float x, float y, float z);
 Matrix4 identity();
+Matrix4 setFrustum(float r, float t, float n, float f);
 Matrix4 transpose(Matrix4 mIn);
