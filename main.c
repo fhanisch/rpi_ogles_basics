@@ -8,6 +8,7 @@
 #include "ui/key.h"
 #include "file_io/bmp_rw.h"
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 
 
 typedef struct {
@@ -89,7 +90,8 @@ void initOpenGL(CUBE_STATE_T *p_state)
 int main(int val, char **str)
 {
 	bool quit=false;
-	SDL_Event event;
+	SDL_Event event;		
+	TTF_Font *font = NULL;	
 	bool keyPressed[SDLK_LAST];
 	int mouseX = 0;
 	int mouseY = 0;
@@ -99,6 +101,9 @@ int main(int val, char **str)
 
 	initOpenGL(&state);
 	SDL_Init(SDL_INIT_VIDEO);
+	TTF_Init();
+	font = TTF_OpenFont( "res/GenBasB.ttf", 60 );
+
 	SDL_SetVideoMode(0,0,32,SDL_OPENGL);
 
 	vendor		= glGetString(GL_VENDOR);
@@ -112,7 +117,7 @@ int main(int val, char **str)
 	printf("OpenGL Version: %s\n",oglVersion);
 	printf("GLSL Version: %s\n", glslVersion);
 
-	myView = view("MyView",str[1]);
+	myView = view("MyView",str[1],font);
 
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
 	glClearDepthf(1.0f);
@@ -158,6 +163,9 @@ int main(int val, char **str)
 		myView.obj[4].vTrans.x = mouseX/1920.0f*10.0f;
 		myView.obj[4].vTrans.y = mouseY/1080.0f*10.0f;
 	}
+	
+	TTF_CloseFont( font );
+	TTF_Quit();
 	SDL_Quit();
 
 	return 0;

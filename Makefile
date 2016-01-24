@@ -1,6 +1,6 @@
 INC=-I/home/felix/Entwicklung/userland/userland-master/host_applications/linux/libs/bcm_host/include -I/home/felix/Entwicklung/userland/userland-master -I/home/felix/Entwicklung/userland/userland-master/build/inc/interface/vcos
 
-LIB=-lbcm_host -lEGL -lGLESv2 -lSDL -lm -L/home/felix/Entwicklung/userland/userland-master/build/lib
+LIB=-lbcm_host -lEGL -lGLESv2 -lSDL -lSDL_ttf -lm -L/home/felix/Entwicklung/userland/userland-master/build/lib
 
 OBJ=build/main.o build/shader.o build/renderobject.o build/view.o build/matrix.o build/key.o build/bmp_rw.o
 
