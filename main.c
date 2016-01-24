@@ -102,7 +102,7 @@ int main(int val, char **str)
 	initOpenGL(&state);
 	SDL_Init(SDL_INIT_VIDEO);
 	TTF_Init();
-	font = TTF_OpenFont( "res/GenBasB.ttf", 60 );
+	font = TTF_OpenFont( "res/Ubuntu-B.ttf", 60 );
 
 	SDL_SetVideoMode(0,0,32,SDL_OPENGL);
 

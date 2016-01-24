@@ -150,11 +150,11 @@ void setText2Texture(GLubyte *tex, int xSize, GLubyte *pixels, int w, int h)
 
 	for (y=0;y<h;y++)
 	{		
-		for (x=0;x<w;x++)
+		for (x=0;x<w+2;x++)
 		{
 			if (pixels[pixelPtr]>value)
 			{
-				setPixel(tex,xSize,x,400-y);
+				setPixel(tex,xSize,100+x,400-y);
 			}
 			pixelPtr++;
 		}
