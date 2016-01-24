@@ -115,10 +115,10 @@ int main(int val, char **str)
 	myView = view("MyView",str[1]);
 
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
-	//glClearDepthf(1.0f);
+	glClearDepthf(1.0f);
 	//glShadeModel(GL_SMOOTH);
-	//glEnable(GL_DEPTH_TEST);
-	//glDepthFunc(GL_LESS);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 	//glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	//Transparenz
 	glEnable(GL_BLEND);
@@ -127,8 +127,8 @@ int main(int val, char **str)
 	//writeBMP("cross.bmp");
 	while(!keyPressed[SDLK_ESCAPE]&&!quit)
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		myView.pfcnDrawView(&myView);
 		eglSwapBuffers(state.display, state.surface);
@@ -156,7 +156,7 @@ int main(int val, char **str)
 		if (keyPressed[SDLK_UP]) myView.obj[2].vTrans.y += 0.05;
 		if (keyPressed[SDLK_DOWN]) myView.obj[2].vTrans.y -= 0.05;
 		myView.obj[4].vTrans.x = mouseX/1920.0f*10.0f;
-		myView.obj[4].vTrans.y = mouseY/1080.0f*10.0f;
+		myView.obj[4].vTrans.y = mouseY/1080.0f*10.0f;		
 	}
 	SDL_Quit();
 

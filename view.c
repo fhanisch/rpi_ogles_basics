@@ -38,6 +38,7 @@ View view(char *name, char *hintergrund)
 	createObj(&textfield);
 	cross.mProj.m11 = 1080.0f/1920.0f;
 	cross.vScale = vec3(0.05f,0.05f,1.0f);
+	cross.vTrans = vec3(0.0f,0.0f,0.1f);
 	triangle.mProj.m11 = 1080.0f/1920.0f;
 	triangle.mProj = transpose(triangle.mProj);
 	triangle.vTrans = vec3(-1.0f, 0.35f, 0.0f);
@@ -46,9 +47,12 @@ View view(char *name, char *hintergrund)
 	square.mProj = transpose(square.mProj);
 	square.vTrans = vec3(1.1f, -0.5f, 0.0f);
 	square.vScale = vec3(0.3f,0.3f,1.0f);
-	rectangle.pfcnLoadTexture(&rectangle);
-	
-	rectangle.pfcnCreateTCO(&rectangle);
+	rectangle.pfcnLoadTexture(&rectangle);	
+	rectangle.pfcnCreateTCO(&rectangle);	
+	//rectangle.mProj.m43 = -1.0f;
+	//rectangle.mProj.m44 =  0.0f;
+	rectangle.mProj = transpose(rectangle.mProj);
+	rectangle.vTrans = vec3(0.0f, 0.0f, -0.1f);
 	textfield.pfcnLoadTexture(&textfield);
 	textfield.pfcnGetLetters(&textfield);
 	textfield.pfcnSetText(&textfield, "HALLO");
@@ -82,6 +86,7 @@ void createObj(RenderObject *obj)
 	obj->pfcnCreateVBO(obj);
 	obj->pfcnCreateIBO(obj);
 	obj->mProj = identity();
+	obj->mProj.m33 = -1.0f;
 	obj->vTrans = vec3(0.0f, 0.0f, 0.0f);
 	obj->vScale=vec3(1.0f,1.0f,1.0f);
 }
@@ -92,6 +97,7 @@ void createObj2(RenderObject *obj)
 	obj->pfcnCreateObjShader(obj);
 	obj->pfcnCreateObjShaderProgram(obj);	
 	obj->mProj = identity();
+	obj->mProj.m33 = -1.0f;
 	obj->vTrans = vec3(0.0f, 0.0f, 0.0f);
 	obj->vScale=vec3(1.0f,1.0f,1.0f);
 }
