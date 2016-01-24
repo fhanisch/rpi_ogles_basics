@@ -156,7 +156,7 @@ int main(int val, char **str)
 		if (keyPressed[SDLK_UP]) myView.obj[2].vTrans.y += 0.05;
 		if (keyPressed[SDLK_DOWN]) myView.obj[2].vTrans.y -= 0.05;
 		myView.obj[4].vTrans.x = mouseX/1920.0f*10.0f;
-		myView.obj[4].vTrans.y = mouseY/1080.0f*10.0f;		
+		myView.obj[4].vTrans.y = mouseY/1080.0f*10.0f;
 	}
 	SDL_Quit();
 

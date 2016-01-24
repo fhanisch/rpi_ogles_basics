@@ -8,7 +8,7 @@ void main()
 	//gl_FragColor = color;
 	vec4 tex = texture2D(samp, texCoordOut);
 	if (tex.g<0.8)
-		gl_FragColor = vec4(0.4, 0.4, 0.4, 1.0);
+		gl_FragColor = vec4(0.3, 0.3, 0.3, 1.0);
 	else
-		gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+		gl_FragColor = vec4(0.0, 0.0, 0.0, 0.25);
 }
