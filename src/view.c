@@ -30,11 +30,11 @@ View view(char *name, char *hintergrund, TTF_Font *font)
 	format = message->format;
 	printf("BitsPerPixel: %i\n",format->BitsPerPixel);
 	printf("BytesPerPixel: %i\n",format->BytesPerPixel);
-	RenderObject cross = renderobject("Cross","shader/generic.vert","shader/generic.frag", NULL, black, DRAW_OBJ);
-	RenderObject triangle = renderobject("Triangle","shader/generic.vert","shader/generic.frag", NULL, yellow, DRAW_OBJ_VBO);
-	RenderObject rectangle = renderobject("Rectangle","shader/generictex.vert","shader/generictex.frag", view.hintergrundbild, blue, DRAW_OBJ_VBO_TEX);
-	RenderObject square = renderobject("Square","shader/generic.vert","shader/generic.frag", NULL, red, DRAW_OBJ_VBO);
-	RenderObject textfield = renderobject ("Textfield","shader/generictex.vert","shader/generictext.frag","res/font3.bmp",red, DRAW_OBJ_VBO_TEX);
+	RenderObject cross = renderobject("Cross","src/shader/generic.vert","src/shader/generic.frag", NULL, black, DRAW_OBJ);
+	RenderObject triangle = renderobject("Triangle","src/shader/generic.vert","src/shader/generic.frag", NULL, yellow, DRAW_OBJ_VBO);
+	RenderObject rectangle = renderobject("Rectangle","src/shader/generictex.vert","src/shader/generictex.frag", view.hintergrundbild, blue, DRAW_OBJ_VBO_TEX);
+	RenderObject square = renderobject("Square","src/shader/generic.vert","src/shader/generic.frag", NULL, red, DRAW_OBJ_VBO);
+	RenderObject textfield = renderobject ("Textfield","src/shader/generictex.vert","src/shader/generictext.frag","res/font3.bmp",red, DRAW_OBJ_VBO_TEX);
 	cross.pfcnGeoCross(&cross);
 	triangle.pfcnGeoTriangle(&triangle);
 	rectangle.pfcnGeoRectangle(&rectangle);

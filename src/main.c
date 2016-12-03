@@ -87,7 +87,7 @@ void initOpenGL(CUBE_STATE_T *p_state)
 	result = eglMakeCurrent(p_state->display, p_state->surface, p_state->surface, p_state->context);	
 }
 
-int main(int val, char **str)
+int main(int argc, char **argv)
 {
 	bool quit=false;
 	SDL_Event event;		
@@ -98,6 +98,12 @@ int main(int val, char **str)
 	memset(keyPressed, 0, sizeof(keyPressed));
 	View myView;
 	const GLubyte *vendor, *renderer, *oglVersion, *glslVersion;
+
+	if (argc<2)
+	{
+		printf("Inputargument auf Hintergrundbild fehlt!\n");
+		return 1;
+	}
 
 	initOpenGL(&state);
 	SDL_Init(SDL_INIT_VIDEO);
@@ -111,13 +117,13 @@ int main(int val, char **str)
 	oglVersion	= glGetString(GL_VERSION);
 	glslVersion	= glGetString(GL_SHADING_LANGUAGE_VERSION);
 
-	printf("Programm: %s\n",str[0]+2);
+	printf("Programm: %s\n",argv[0]+2);
 	printf("Vendor: %s\n", vendor);
 	printf("Renderer: %s\n",renderer);
 	printf("OpenGL Version: %s\n",oglVersion);
 	printf("GLSL Version: %s\n", glslVersion);
 
-	myView = view("MyView",str[1],font);
+	myView = view("MyView",argv[1],font);
 
 	glClearColor(0.0f,0.0f,0.0f,1.0f);
 	glClearDepthf(1.0f);
